@@ -59,6 +59,12 @@ SolarReclaim utilizes a hybrid system to balance agility with long-term vision:
 - **Focus:** Short-term steering and "Course Correction."
 - **Activity:** Review weekly KPI snapshots, analyze script A/B test results, and adjust outbound targeting.
 - **Goal:** Maintain momentum and fix immediate bottlenecks.
+- **Alignment:** Linked to the milestones of the 30-Day Launch Sprint timetable.
+
+## 9. Phase 1: The 30-Day Launch Sprint
+**Objective:** Secure first 3 partners, scrub first 1000 leads, and generate first 5 shown appointments.
+
+This sprint serves as the initial validation phase for the Growth Flywheel, moving the company from research to execution. The specific milestones and deadlines are detailed in the `SolarReclaim_30Day_Timetable.pdf`.
 
 ### Quarterly Strategic Deep-Dives
 - **Focus:** Structural alignment and "Flywheel Optimization."
