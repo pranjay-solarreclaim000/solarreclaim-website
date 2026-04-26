@@ -1,43 +1,43 @@
-# Skill: Outreach Sequencing
+# Skill: Outreach Sequencing SOP
 
 ## 🎯 Objective
-Convert "dead" CRM leads into scheduled appointments for solar installers using a professional, low-pressure, multi-channel approach.
+Convert dead leads into scheduled appointments using a multi-channel, low-pressure sequence that respects the brand voice and ensures founder oversight before any one-to-one communication is sent.
 
-## 📅 Multi-Channel Cadence
-The sequence is designed to maximize touchpoints without becoming intrusive.
+## 🔄 Multi-Channel Cadence
+The sequence is designed to be persistent but not intrusive. If a lead responds at any point, the sequence stops and moves to the `qualification-closing.md` flow.
 
 | Touchpoint | Timing | Channel | Goal |
 | :--- | :--- | :--- | :--- |
-| **Touch 1** | Day 1 | SMS | Low-friction re-engagement. |
-| **Touch 2** | Day 3 | Phone Call | Personal connection and direct qualification. |
-| **Touch 3** | Day 5 | Email | Professional follow-up and detailed value prop. |
+| **Touch 1** | Day 1 | SMS | Low-friction "pattern interrupt" to gauge interest. |
+| **Touch 2** | Day 3 | Phone Call | Humanize the outreach; leave a brief, result-oriented VM. |
+| **Touch 3** | Day 5 | Email | Provide a professional "last call" for the recovery offer. |
 
-## 🎙️ Drafting Instructions (Brand Voice Alignment)
-All messages must adhere to the core strategy defined in `vault/business-context/core-strategy.md`.
+## ✍️ Drafting Instructions
+All drafts must strictly adhere to the brand voice defined in `vault/business-context/core-strategy.md`.
 
-### Core Principles:
-- **Professional & Result-Oriented:** Focus on the outcome (revenue recovery) rather than the process.
-- **Low-Pressure:** Avoid "hard sell" tactics. Position as a partner helping them reclaim lost value.
-- **High-Integrity:** Be transparent about the intent—reactivating old leads they've already paid for or acquired.
+### Brand Voice Guidelines:
+- **Professional:** No slang, correct grammar, polished delivery.
+- **Result-Oriented:** Focus on the outcome (revenue recovery, missed opportunities) rather than the process.
+- **Low-Pressure:** Avoid "hard sell" tactics or urgency triggers (e.g., "Act now or lose out!"). Use curiosity and helpfulness instead.
+- **High-Integrity:** Be honest about the goal—reactivating a previous interest in solar to see if it's still relevant.
 
-### Voice Guidelines:
-- **Do:** Use phrases like "reclaiming lost revenue," "forgotten opportunities," and "no-risk partnership."
-- **Don't:** Use desperation-driven language ("Last chance!"), overly aggressive sales jargon, or generic templates that feel robotic.
+### Messaging Principles:
+- **SMS:** Short, punchy, and conversational. Ask a simple yes/no question.
+- **VM/Call:** Friendly, direct, and brief. Mention the specific installer they previously dealt with.
+- **Email:** Subject lines should be boring and professional (e.g., "Solar follow-up - [Installer Name]"). Body should be concise and focused on a single call to action.
 
-## ✍️ Formatting the Draft for Approval
-Before any message is sent, it must be prepared for the `founder-approval-loop`. Use the following format to ensure the founder has full context:
+## 🛠️ Formatting the Draft
+Before moving to the approval stage, drafts must be formatted for the `founder-approval-loop`. Use the following structure:
 
 **Format:**
-`[Lead Name] | [Channel] | [Draft Content] | [Context/Reasoning]`
+`[Lead Name/ID] | [Channel] | [Draft Content] | [Context/Reasoning]`
 
 **Example:**
-`John Doe | SMS | "Hi John, this is [Name] from SolarReclaim. We're helping [Installer Name] reconnect with a few homeowners who looked at solar last year. Still interested in lowering your bill?" | Re-engaging a lead from 6 months ago who never closed.`
+`Lead #102 (John Doe) | SMS | "Hi John, this is [Name] calling on behalf of [Installer]. Just noticed your solar inquiry from last year was never finalized. Still looking to lower your bill, or did you already get it sorted?" | First touch in sequence for a TX lead.`
 
-## ⚙️ Protocol for Approval Stage
-1. **Drafting:** The agent generates the message based on the cadence and brand voice.
-2. **Staging:** The draft is formatted according to the "Formatting the Draft" section above.
-3. **Submission:** The draft is moved to the `founder-approval-loop` (see `skills/founder-approval-loop.md`).
-4. **Execution:** 
-    - If **Approved**: Mark as "Sent" in `vault/memory/leads.md` and schedule the next touchpoint.
-    - If **Edited**: Incorporate founder changes and re-submit or send if final.
-    - If **Rejected**: Archive the lead in `vault/memory/leads.md` and cease outreach.
+## 🚦 Protocol for Approval Stage
+1. **Draft Generation:** Agent generates the draft based on the cadence and brand voice.
+2. **Validation:** Agent verifies the lead is in `vault/memory/leads.md` and is eligible for the current touchpoint.
+3. **Submission:** Agent moves the formatted draft into the `founder-approval-loop` (as defined in `skills/founder-approval-loop.md`).
+4. **Wait State:** No message is sent until the Founder provides an `Approve` or `Edit` response.
+5. **Execution:** Once approved, the message is sent, and the `Last Touch` date is updated in `vault/memory/leads.md`.
