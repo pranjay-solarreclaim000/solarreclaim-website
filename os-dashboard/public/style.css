@@ -199,6 +199,119 @@ button:hover {
     font-size: 1.5rem;
 }
 
-.close-trace:hover {
-    color: #fff;
+/* Agent Matrix Styles */
+.agent-matrix {
+    background: #111114;
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.matrix-item {
+    background: #1a1a1f;
+    border: 1px solid #333;
+    padding: 1rem;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.matrix-label {
+    font-size: 0.75rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.matrix-value {
+    font-size: 1.1rem;
+    color: #00d4ff;
+    font-weight: bold;
+}
+
+.heartbeat-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #333;
+    margin-right: 8px;
+}
+
+.pulse {
+    background: #00ff88;
+    box-shadow: 0 0 8px #00ff88;
+    animation: heartbeat 1.5s infinite;
+}
+
+@keyframes heartbeat {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.2); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* Skill Registry Styles */
+.skill-registry {
+    background: #111114;
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.registry-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.registry-item {
+    background: #1a1a1f;
+    border: 1px solid #333;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: border-color 0.3s ease;
+}
+
+.registry-item:hover {
+    border-color: #00d4ff;
+}
+
+.skill-name {
+    color: #e0e0e0;
+    font-family: inherit;
+}
+
+.invoke-btn {
+    background: #005f73;
+    color: #00d4ff;
+    border: 1px solid #00d4ff;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+}
+
+/* Task List Styles */
+.task-list {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.task-item {
+    background: #1a1a1f;
+    border-left: 3px solid #00d4ff;
+    padding: 0.5rem 1rem;
+    color: #a0a0a0;
+    font-size: 0.9rem;
 }
