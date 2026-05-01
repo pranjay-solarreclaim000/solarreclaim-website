@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<<htmlhtml lang="en">
+<<headhead>
+    <<metameta charset="UTF-8">
+    <<metameta name="viewport" content="width=device-width, initial-scale=1.0">
+    <<titletitle>SolarReclaim OS Dashboard</title>
+    <<stylestyle>
+        body { font-family: sans-serif; margin: 2rem; background: #f4f4f9; color: #333; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        section { margin-bottom: 2rem; border-bottom: 1px solid #eee; padding-bottom: 1rem; }
+        h1, h2 { color: #2c3e50; }
+        pre { background: #eee; padding: 1rem; overflow: auto; border-radius: 4px; }
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+        input, textarea { width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { padding: 0.5rem 1rem; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #2980b9; }
+    </style>
+</head>
+<body>
+    <<divdiv class="container">
+        <h1>SolarReclaim OS Dashboard</h1>
+
+        <<sectionsection>
+            <h2>Current State</h2>
+            <<prepre id="state-view">Loading...</pre>
+            <<buttonbutton onclick="loadState()">Refresh State</button>
+        </section>
+
+        <<sectionsection>
+            <h2>OS History</h2>
+            <<prepre id="history-view">Loading...</pre>
+            <<buttonbutton onclick="loadHistory()">Refresh History</button>
+        </section>
+
+        <<sectionsection>
+            <h2>Available Skills</h2>
+            <<ulul id="skills-list">Loading...</ul>
+            <<buttonbutton onclick="loadSkills()">Refresh Skills</button>
+        </section>
+
+        <<sectionsection>
+            <h2>Control Trigger</h2>
+            <<divdiv class="form-group">
+                <<labellabel for="skill">Skill</label>
+                <<inputinput type="text" id="skill" placeholder="e.g., lead-scrubbing">
+            </div>
+            <<divdiv class="form-group">
+                <<labellabel for="goal">Goal</label>
+                <<textareatextarea id="goal" rows="3" placeholder="What should Claude achieve?"></textarea>
+            </div>
+            <<buttonbutton onclick="sendTrigger()">Send Trigger</button>
+            <<pp id="trigger-status"></p>
+        </section>
+    </div>
+
+    <<scriptscript>
+        async function loadState() {
+            const res = await fetch('/api/state');
+            const data = await res.json();
+            document.getElementById('state-view').textContent = JSON.stringify(data, null, 2);
+        }
+
+        async function loadHistory() {
+            const res = await fetch('/api/history');
+            const data = await res.text();
+            document.getElementById('history-view').textContent = data;
+        }
+
+        async function loadSkills() {
+            const res = await fetch('/api/skills');
+            const data = await res.json();
+            const list = document.getElementById('skills-list');
+            list.innerHTML = '';
+            data.skills.forEach(skill => {
+                const li = document.createElement('li');
+                li.textContent = skill;
+                list.appendChild(li);
+            });
+        }
+
+        async function sendTrigger() {
+            const skill = document.getElementById('skill').value;
+            const goal = document.getElementById('goal').value;
+            const status = document.getElementById('trigger-status');
+
+            status.textContent = 'Sending...';
+            try {
+                const res = await fetch('/api/trigger', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ skill, goal })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    status.textContent = 'Success! Trigger sent.';
+                    loadState();
+                    loadHistory();
+                } else {
+                    status.textContent = 'Error: ' + data.error;
+                }
+            } catch (e) {
+                status.textContent = 'Network error occurred.';
+            }
+        }
+
+        // Initial load
+        loadState();
+        loadHistory();
+        loadSkills();
+    </script>
+</body>
+</html>
