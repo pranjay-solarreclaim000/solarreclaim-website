@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<<htmlhtml lang="en">
-<<headhead>
-    <<metameta charset="UTF-8">
-    <<metameta name="viewport" content="width=device-width, initial-scale=1.0">
-    <<titletitle>SolarReclaim OS Dashboard</title>
-    <<stylestyle>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SolarReclaim OS Dashboard</title>
+    <style>
         body { font-family: sans-serif; margin: 2rem; background: #f4f4f9; color: #333; }
         .container { max-width: 800px; margin: auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         section { margin-bottom: 2rem; border-bottom: 1px solid #eee; padding-bottom: 1rem; }
@@ -18,43 +18,43 @@
     </style>
 </head>
 <body>
-    <<divdiv class="container">
+    <div class="container">
         <h1>SolarReclaim OS Dashboard</h1>
 
-        <<sectionsection>
+        <section>
             <h2>Current State</h2>
-            <<prepre id="state-view">Loading...</pre>
-            <<buttonbutton onclick="loadState()">Refresh State</button>
+            <pre id="state-view">Loading...</pre>
+            <button onclick="loadState()">Refresh State</button>
         </section>
 
-        <<sectionsection>
+        <section>
             <h2>OS History</h2>
-            <<prepre id="history-view">Loading...</pre>
-            <<buttonbutton onclick="loadHistory()">Refresh History</button>
+            <pre id="history-view">Loading...</pre>
+            <button onclick="loadHistory()">Refresh History</button>
         </section>
 
-        <<sectionsection>
+        <section>
             <h2>Available Skills</h2>
-            <<ulul id="skills-list">Loading...</ul>
-            <<buttonbutton onclick="loadSkills()">Refresh Skills</button>
+            <ul id="skills-list">Loading...</ul>
+            <button onclick="loadSkills()">Refresh Skills</button>
         </section>
 
-        <<sectionsection>
+        <section>
             <h2>Control Trigger</h2>
-            <<divdiv class="form-group">
-                <<labellabel for="skill">Skill</label>
-                <<inputinput type="text" id="skill" placeholder="e.g., lead-scrubbing">
+            <div class="form-group">
+                <label for="skill">Skill</label>
+                <input type="text" id="skill" placeholder="e.g., lead-scrubbing">
             </div>
-            <<divdiv class="form-group">
-                <<labellabel for="goal">Goal</label>
-                <<textareatextarea id="goal" rows="3" placeholder="What should Claude achieve?"></textarea>
+            <div class="form-group">
+                <label for="goal">Goal</label>
+                <textarea id="goal" rows="3" placeholder="What should Claude achieve?"></textarea>
             </div>
-            <<buttonbutton onclick="sendTrigger()">Send Trigger</button>
-            <<pp id="trigger-status"></p>
+            <button onclick="sendTrigger()">Send Trigger</button>
+            <p id="trigger-status"></p>
         </section>
     </div>
 
-    <<scriptscript>
+    <script>
         async function loadState() {
             const res = await fetch('/api/state');
             const data = await res.json();
