@@ -1,0 +1,20 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-05-01T00:00:00Z",
+  "global_context": {
+    "project_name": "SolarReclaim",
+    "current_objective": "Build Agenting OS",
+    "critical_findings": []
+  },
+  "state_machine": {
+    "current_state": "IDLE",
+    "last_event": null,
+    "active_agent": null,
+    "pending_tasks": []
+  },
+  "session_graph": [],
+  "control_knobs": {
+    "autonomy_level": "supervised",
+    "strictness": "high"
+  }
+}
