@@ -8,6 +8,79 @@ const TRANSITIONS = [
     { from: 'QUALITY_REVIEW', to: 'IMPLEMENTATION' },
 ];
 
+async function updateAgentMatrix() {
+    try {
+        const res = await fetch('/api/state');
+        const data = await res.json();
+
+        // Active Agent from state machine
+        const activeAgent = data.state_machine.current_state;
+        document.getElementById('active-agent').textContent = activeAgent;
+
+        // Heartbeat and Last Updated
+        const lastUpdated = data.last_updated || 'Unknown';
+        document.getElementById('last-updated').textContent = lastUpdated;
+        const heartbeat = document.getElementById('heartbeat');
+        if (heartbeat) {
+            heartbeat.classList.toggle('pulse', true);
+        }
+
+        // Task Binding
+        const tasks = data.pending_tasks || [];
+        const taskBinding = document.getElementById('task-binding');
+        if (tasks.length === 0) {
+            taskBinding.innerHTML = 'No pending tasks';
+        } else {
+            taskBinding.innerHTML = tasks.map(task => `<div class="task-item">${task}</div>`).join('');
+        }
+    } catch (e) {
+        console.error('Error updating Agent Matrix:', e);
+    }
+}
+
+async function updateSkillRegistry() {
+    try {
+        const res = await fetch('/api/skills');
+        const data = await res.json();
+        const list = document.getElementById('registry-list');
+
+        list.innerHTML = '';
+        data.skills.forEach(skill => {
+            const li = document.createElement('li');
+            li.className = 'registry-item';
+            li.innerHTML = `
+                <span class="skill-name">${skill}</span>
+                <button class="invoke-btn" onclick="invokeSkill('${skill}')">Invoke</button>
+            `;
+            list.appendChild(li);
+        });
+    } catch (e) {
+        console.error('Error updating Skill Registry:', e);
+    }
+}
+
+async function invokeSkill(skill) {
+    const goal = prompt(`Enter goal for ${skill}:`, 'Execute standard process');
+    if (!goal) return;
+
+    try {
+        const res = await fetch('/api/trigger', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ skill, goal })
+        });
+        if (res.ok) {
+            alert(`Skill ${skill} invoked successfully!`);
+            updateAgentMatrix();
+        } else {
+            const data = await res.json();
+            alert(`Error: ${data.error}`);
+        }
+    } catch (e) {
+        alert('Network error occurred.');
+    }
+}
+
 async function updateTopology() {
     const stateRes = await fetch('/api/state');
     const stateData = await stateRes.json();
@@ -45,9 +118,9 @@ function renderGraph(activeState, completedStates, fullStateData) {
         };
     });
 
-    let html = `<<defsdefs>
-        <<markermarker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-            <<polygonpolygon points="0 0, 10 3.5, 0 7" fill="#333" />
+    let html = `<defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
         </marker>
     </defs>`;
 
@@ -56,7 +129,7 @@ function renderGraph(activeState, completedStates, fullStateData) {
         const start = nodePositions[trans.from];
         const end = nodePositions[trans.to];
         const isActive = (trans.from === activeState);
-        html += `<<lineline x1="${start.x}" y1="${start.y}" x2="${end.x}" y2="${end.y}"
+        html += `<line x1="${start.x}" y1="${start.y}" x2="${end.x}" y2="${end.y}"
                  class="edge ${isActive ? 'active' : ''}" />`;
     });
 
@@ -66,10 +139,10 @@ function renderGraph(activeState, completedStates, fullStateData) {
         const isActive = (state === activeState);
         const isCompleted = completedStates.has(state);
         html += `
-            <<gg class="node ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}"
+            <g class="node ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}"
                onclick="showTrace('${state}')">
-                <<circlecircle cx="${pos.x}" cy="${pos.y}" r="40" />
-                <<texttext x="${pos.x}" y="${pos.y + 5}">${state}</text>
+                <circle cx="${pos.x}" cy="${pos.y}" r="40" />
+                <text x="${pos.x}" y="${pos.y + 5}">${state}</text>
             </g>`;
     });
 
@@ -92,18 +165,18 @@ function showTrace(state) {
         );
 
         if (relatedEvents.length === 0) {
-            details.innerHTML = '<<pp>No recorded traces for this state in current session.</p>';
+            details.innerHTML = '<p>No recorded traces for this state in current session.</p>';
             return;
         }
 
         details.innerHTML = relatedEvents.map(e => `
-            <<divdiv class="trace-detail">
-                <<spanspan class="trace-label">Timestamp</span>
-                <<spanspan class="trace-value">${e.timestamp}</span>
-                <<spanspan class="trace-label">Event</span>
-                <<spanspan class="trace-value">${e.event}</span>
-                <<spanspan class="trace-label">Details</span>
-                <<spanspan class="trace-value">${e.description}</span>
+            <div class="trace-detail">
+                <span class="trace-label">Timestamp</span>
+                <span class="trace-value">${e.timestamp}</span>
+                <span class="trace-label">Event</span>
+                <span class="trace-value">${e.event}</span>
+                <span class="trace-label">Details</span>
+                <span class="trace-value">${e.description}</span>
             </div>
         `).join('');
     });
@@ -115,4 +188,9 @@ function closeTrace() {
 
 // Initial load and periodic update
 updateTopology();
-setInterval(updateTopology, 5000);
+updateAgentMatrix();
+updateSkillRegistry();
+setInterval(() => {
+    updateTopology();
+    updateAgentMatrix();
+}, 5000);
