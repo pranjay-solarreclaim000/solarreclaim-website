@@ -7,8 +7,8 @@
     "critical_findings": []
   },
   "state_machine": {
-    "current_state": "PLANNING",
-    "last_event": "EVENT_RESEARCH_COMPLETE",
+    "current_state": "IDLE",
+    "last_event": "EVENT_GATE_PASSED",
     "active_agent": "Claude Code",
     "pending_tasks": []
   },
@@ -22,6 +22,16 @@
       "timestamp": "2026-05-01T12:05:00Z",
       "event": "EVENT_RESEARCH_COMPLETE",
       "description": "Verified state transition from research to planning as part of the test sequence."
+    },
+    {
+      "timestamp": "2026-05-01T12:15:00Z",
+      "event": "EVENT_GATE_FAILED",
+      "description": "Simulated quality gate failure during integration testing."
+    },
+    {
+      "timestamp": "2026-05-01T12:20:00Z",
+      "event": "EVENT_GATE_PASSED",
+      "description": "Simulated quality gate success during integration testing."
     }
   ],
   "control_knobs": {
